@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liz De Mercurio | Professional Technical Writer Portfolio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal: #2aa198;
+      --teal-dark: #21867e;
+      --dark: #111;
+      --light: #f7f9f9;
+      --accent: #e6fffb;
+      --white: #fff;
+      --border: #ddd;
+      --muted: #666;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+      --radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    header {
+      background: var(--dark);
+      color: var(--white);
+      padding: 72px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #ccc;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      margin: 0 14px;
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: var(--teal);
+      outline: none;
+    }
+
+    main {
+      padding-bottom: 30px;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 15px;
+      border-left: 5px solid var(--teal);
+      padding-left: 10px;
+      font-size: 1.8rem;
+    }
+
+    p + p {
+      margin-top: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 11px 18px;
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .book {
+      background: var(--accent);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--teal);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+    }
+
+    .book:hover,
+    .book:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+      background: #dcfbf5;
+      outline: none;
+    }
+
+    .book h3 {
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+
+    .contact-links a {
+      color: var(--teal-dark);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .contact-links a:hover,
+    .contact-links a:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--dark);
+      color: var(--white);
+      margin-top: 40px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      width: min(1000px, 100%);
+      height: min(85vh, 900px);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fafafa;
+    }
+
+    .modal-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      color: var(--dark);
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: var(--teal);
+      outline: none;
+    }
+
+    .modal-body {
+      flex: 1;
+      background: #f2f2f2;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: var(--white);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 56px 18px;
+      }
+
+      nav a {
+        margin: 0 8px;
+        font-size: 0.95rem;
+      }
+
+      section {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .modal {
+        padding: 10px;
+      }
+
+      .modal-content {
+        height: 88vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Liz De Mercurio</h1>
+    <p>Professional Technical Writer | Portfolio</p>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#resume">Resume</a>
+    <a href="#projects">Portfolio</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I specialize in editing and refining written work with a focus on clarity, tone, and structure.
+        My experience as a book editor intern includes working closely with authors to strengthen narrative flow,
+        correct grammar, document design layout, and enhance readability.
+      </p>
+    </section>
+
+    <section id="resume">
+      <h2>Resume</h2>
+      <p>You can view my resume below:</p>
+
+      <div class="btn-group">
+        <button class="btn" id="openResumeBtn" type="button">View Resume</button>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Project Portfolio</h2>
+
+      <div
+        class="book project-trigger"
+        role="button"
+        tabindex="0"
+        data-title="Manuscript Editing Project"
+        data-pdf="Manuscript Editing Project.pdf"
+      >
+        <h3>Manuscript Editing Project</h3>
+        <p>Edited a full-length manuscript with attention to grammar, sentence structure, pacing, and tone consistency.</p>
+      </div>
+
+      <div
+        class="book project-trigger"
+        role="button"
+        tabindex="0"
+        data-title="Style Guide Development"
+        data-pdf="Style Guide Development.pdf"
+      >
+        <h3>Style Guide Project</h3>
+        <p>Developed a style guide project focused on consistency in language, formatting, editorial standards, and documentation practices.</p>
+      </div>
+
+      <div
+        class="book project-trigger"
+        role="button"
+        tabindex="0"
+        data-title="Content Development Support"
+        data-pdf="Content Development Support.pdf"
+      >
+        <h3>Content Development Project</h3>
+        <p>Worked with authors to restructure sections and improve clarity, flow, and argument development.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-links">
+        <p>Email: <a href="mailto:edemercurio@mail.weber.edu">edemercurio@mail.weber.edu</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/your-linkedin-link" target="_blank" rel="noopener noreferrer">your-linkedin-link</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Liz De Mercurio</p>
+  </footer>
+
+  <!-- Shared Modal -->
+  <div class="modal" id="resumeModal" aria-hidden="true" role="dialog" aria-labelledby="resumeModalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="resumeModalTitle">Resume Preview</h3>
+        <button class="close-btn" id="closeResumeBtn" aria-label="Close document preview">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="modalFrame" src="resume.pdf" title="Document Preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('resumeModal');
+    const openResumeBtn = document.getElementById('openResumeBtn');
+    const closeBtn = document.getElementById('closeResumeBtn');
+    const modalTitle = document.getElementById('resumeModalTitle');
+    const modalFrame = document.getElementById('modalFrame');
+    const projectTriggers = document.querySelectorAll('.project-trigger');
+
+    function openModal(title, pdfPath) {
+      modalTitle.textContent = title;
+      modalFrame.src = pdfPath;
+      modalFrame.title = title;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    openResumeBtn.addEventListener('click', () => {
+      openModal('Resume Preview', 'resume.pdf');
+    });
+
+    projectTriggers.forEach((project) => {
+      project.addEventListener('click', () => {
+        openModal(project.dataset.title, project.dataset.pdf);
+      });
+
+      project.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(project.dataset.title, project.dataset.pdf);
+        }
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
