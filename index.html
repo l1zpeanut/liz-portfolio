@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Liz De Mercurio | Professional Technical Writer Portfolio</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --teal: #2aa198;
@@ -16,7 +14,7 @@
       --accent: #e6fffb;
       --white: #fff;
       --border: #ddd;
-      --muted: #666;
+      --muted: #555;
       --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
       --radius: 12px;
     }
@@ -32,7 +30,7 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: var(--light);
       color: var(--dark);
       line-height: 1.6;
@@ -50,7 +48,7 @@
     }
 
     header h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(2.2rem, 4vw, 3rem);
       margin-bottom: 10px;
     }
@@ -74,7 +72,7 @@
       margin: 0 14px;
       text-decoration: none;
       color: var(--dark);
-      font-weight: 500;
+      font-weight: 600;
       transition: color 0.2s ease;
     }
 
@@ -98,7 +96,7 @@
     }
 
     h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: Georgia, "Times New Roman", serif;
       margin-bottom: 15px;
       border-left: 5px solid var(--teal);
       padding-left: 10px;
@@ -113,7 +111,7 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
     .btn {
@@ -125,7 +123,7 @@
       border-radius: 8px;
       text-decoration: none;
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: background 0.2s ease, transform 0.2s ease;
     }
@@ -137,33 +135,38 @@
       outline: none;
     }
 
-    .book {
-      background: var(--accent);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      border-left: 4px solid var(--teal);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-      cursor: pointer;
+    .btn.secondary {
+      background: var(--dark);
     }
 
-    .book:hover,
-    .book:focus {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
-      background: #dcfbf5;
-      outline: none;
+    .btn.secondary:hover,
+    .btn.secondary:focus {
+      background: #333;
+    }
+
+    .book {
+      background: var(--accent);
+      padding: 22px;
+      border-radius: 10px;
+      margin-bottom: 22px;
+      border-left: 4px solid var(--teal);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.04);
     }
 
     .book h3 {
-      margin-bottom: 6px;
-      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+
+    .book p {
+      color: var(--muted);
+      max-width: 760px;
     }
 
     .contact-links a {
       color: var(--teal-dark);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .contact-links a:hover,
@@ -180,7 +183,6 @@
       margin-top: 40px;
     }
 
-    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -199,7 +201,7 @@
     .modal-content {
       background: var(--white);
       width: min(1000px, 100%);
-      height: min(85vh, 900px);
+      max-height: min(85vh, 900px);
       border-radius: 14px;
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
@@ -218,7 +220,7 @@
 
     .modal-header h3 {
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .close-btn {
@@ -238,14 +240,37 @@
 
     .modal-body {
       flex: 1;
+      background: var(--white);
+      padding: 26px;
+      overflow-y: auto;
+    }
+
+    .modal-body.pdf {
+      padding: 0;
       background: #f2f2f2;
     }
 
     .modal-body iframe {
       width: 100%;
-      height: 100%;
+      height: 75vh;
       border: none;
       background: var(--white);
+    }
+
+    .project-details h4 {
+      color: var(--teal-dark);
+      margin-top: 18px;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .project-details h4:first-child {
+      margin-top: 0;
+    }
+
+    .project-details p {
+      color: var(--dark);
+      margin-bottom: 10px;
     }
 
     @media (max-width: 600px) {
@@ -268,7 +293,19 @@
       }
 
       .modal-content {
-        height: 88vh;
+        max-height: 88vh;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-body.pdf {
+        padding: 0;
+      }
+
+      .modal-body iframe {
+        height: 78vh;
       }
     }
   </style>
@@ -302,44 +339,47 @@
       <p>You can view my resume below:</p>
 
       <div class="btn-group">
-        <button class="btn" id="openResumeBtn" type="button">View Resume</button>
+        <button class="btn" type="button" data-action="pdf" data-title="Resume Preview" data-pdf="resume.pdf">View Resume</button>
       </div>
     </section>
 
     <section id="projects">
       <h2>Project Portfolio</h2>
 
-      <div
-        class="book project-trigger"
-        role="button"
-        tabindex="0"
-        data-title="Manuscript Editing Project"
-        data-pdf="Manuscript Editing Project.pdf"
-      >
+      <div class="book">
         <h3>Manuscript Editing Project</h3>
-        <p>Edited a full-length manuscript with attention to grammar, sentence structure, pacing, and tone consistency.</p>
+        <p>Digital book editing, layout refinement, and print-ready preparation for Wildlife in Focus photography books.</p>
+        <div class="btn-group">
+          <button class="btn" type="button" data-action="pdf" data-title="Manuscript Editing Project" data-pdf="Manuscript Editing Project.pdf">View PDF Sample</button>
+          <button class="btn secondary" type="button" data-action="text" data-title="Manuscript Editing Project" data-project="manuscript">Project Notes</button>
+        </div>
       </div>
 
-      <div
-        class="book project-trigger"
-        role="button"
-        tabindex="0"
-        data-title="Style Guide Development"
-        data-pdf="Style Guide Development.pdf"
-      >
+      <div class="book">
         <h3>Style Guide Project</h3>
-        <p>Developed a style guide project focused on consistency in language, formatting, editorial standards, and documentation practices.</p>
+        <p>Grammar and writing style guide created for 5th–6th grade students transitioning into middle school.</p>
+        <div class="btn-group">
+          <button class="btn" type="button" data-action="pdf" data-title="Style Guide Project" data-pdf="Style Guide Development.pdf">View PDF Sample</button>
+          <button class="btn secondary" type="button" data-action="text" data-title="Style Guide Project" data-project="styleGuide">Project Notes</button>
+        </div>
       </div>
 
-      <div
-        class="book project-trigger"
-        role="button"
-        tabindex="0"
-        data-title="Content Development Support"
-        data-pdf="Content Development Support.pdf"
-      >
+      <div class="book">
         <h3>Content Development Project</h3>
-        <p>Worked with authors to restructure sections and improve clarity, flow, and argument development.</p>
+        <p>Promotional document set created for the NinjaZone program at Black Diamond Gymnastics.</p>
+        <div class="btn-group">
+          <button class="btn" type="button" data-action="pdf" data-title="Content Development Project" data-pdf="Content Development Support.pdf">View PDF Sample</button>
+          <button class="btn secondary" type="button" data-action="text" data-title="Content Development Project" data-project="contentDevelopment">Project Notes</button>
+        </div>
+      </div>
+
+      <div class="book">
+        <h3>Grant Writing Project</h3>
+        <p>Structured grant proposal created for a fictional animal welfare pilot program focused on reducing euthanization and improving placement outcomes.</p>
+        <div class="btn-group">
+          <button class="btn" type="button" data-action="pdf" data-title="Grant Writing Project" data-pdf="3160 Grants Writing Course (2).pdf">View PDF Sample</button>
+          <button class="btn secondary" type="button" data-action="text" data-title="Grant Writing Project" data-project="grantWriting">Project Notes</button>
+        </div>
       </div>
     </section>
 
@@ -356,31 +396,91 @@
     <p>© 2026 Liz De Mercurio</p>
   </footer>
 
-  <!-- Shared Modal -->
-  <div class="modal" id="resumeModal" aria-hidden="true" role="dialog" aria-labelledby="resumeModalTitle">
+  <div class="modal" id="portfolioModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="resumeModalTitle">Resume Preview</h3>
-        <button class="close-btn" id="closeResumeBtn" aria-label="Close document preview">&times;</button>
+        <h3 id="modalTitle">Document Preview</h3>
+        <button class="close-btn" id="closeModalBtn" aria-label="Close document preview">&times;</button>
       </div>
-      <div class="modal-body">
-        <iframe id="modalFrame" src="resume.pdf" title="Document Preview"></iframe>
-      </div>
+      <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
 
   <script>
-    const modal = document.getElementById('resumeModal');
-    const openResumeBtn = document.getElementById('openResumeBtn');
-    const closeBtn = document.getElementById('closeResumeBtn');
-    const modalTitle = document.getElementById('resumeModalTitle');
-    const modalFrame = document.getElementById('modalFrame');
-    const projectTriggers = document.querySelectorAll('.project-trigger');
+    const modal = document.getElementById('portfolioModal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
 
-    function openModal(title, pdfPath) {
+    const projectContent = {
+      manuscript: `
+        <div class="project-details">
+          <h4>Purpose</h4>
+          <p>The purpose of this manuscript document was to create a digital PowerPoint file for the organization Wildlife in Focus that simplifies editing and printing future photography books and later convert it to a PDF file resulting in a digital copy for release and printing.</p>
+
+          <h4>Audience</h4>
+          <p>The primary audience included the Wildlife in Focus board members, editors, photographers, and production staff responsible for preparing, revising, and publishing future photography books. The final production results in a photography book that is donated to contributors, schools, and volunteers, and sold to supporters to help sustain program activities.</p>
+
+          <h4>Tools and Techniques Used</h4>
+          <p>I used Adobe software to compress the size of a previous photography book PDF file. I converted it into an editable format so updates could be made efficiently without rebuilding the document from scratch. I proceeded to refine layout structure for images, corrected formatting issues, standardized fonts and spacing, created and edited pages with text, and prepared the file for future conversion back to meet printing specifications. I focused on document design layout, consistency, and usability to support long-term editing and publishing needs.</p>
+        </div>
+      `,
+
+      styleGuide: `
+        <div class="project-details">
+          <h4>Purpose</h4>
+          <p>The purpose of this style guide project was to create a standard, student-friendly Grammar and Writing Style Guide for 5th–6th grade students transitioning into middle school. The guide strengthens writing fundamentals, builds confidence before expectations increase, and helps students apply grammar skills as daily habits in their writing.</p>
+
+          <h4>Audience</h4>
+          <p>The primary audience included 5th and 6th grade students preparing to enter middle school who need clear guidance on grammar and writing expectations. The secondary audience included teachers who require a consistent reference to support instruction, provide standardized feedback, and reduce time spent re-teaching common writing errors across classrooms.</p>
+
+          <h4>Tools and Techniques Used</h4>
+          <p>The team split off different sections of the style guide. We referenced other companies’ style guides to guide formatting and the depth of content covered in this section. The sections I focused on were Visual &amp; Formatting Consistency and Accessibility &amp; Readability. I researched visual and formatting consistency, accessibility, and readability, and how these factors impact schools by improving clarity, supporting student learning, and ensuring materials are easy for both teachers and students to use.</p>
+        </div>
+      `,
+
+      contentDevelopment: `
+        <div class="project-details">
+          <h4>Purpose</h4>
+          <p>The purpose of this content development project was to create a cohesive document set to promote the newly established NinjaZone program for our client Black Diamond Gymnastics. The document set was designed to clearly communicate program information, highlight benefits, and encourage enrollment while maintaining a consistent and professional message across all deliverables.</p>
+
+          <h4>Audience</h4>
+          <p>The primary audience included parents of children ages 4–17 and children already familiar with Black Diamond Gymnastics but new to the NinjaZone program with upcoming events included. The secondary audience included potential employees targeted through the hiring flyer.</p>
+
+          <h4>Tools and Techniques Used</h4>
+          <p>I used content development and document design techniques using the online graphic design tool called Canva. Canva has built-in tools to structure information into clear sections using consistent layout, strong visual organization, and readable formatting. I applied design principles such as contrast, repetition, alignment, and proximity, from <em>The Non-Designer’s Design &amp; Type Books</em> by Robin Williams, to maintain consistency across the brochure, event flyers, hiring flyer, and business card. The Canva online application was chosen for our client because of its user-friendly tools, sharing features, and easy to update for future use.</p>
+        </div>
+      `,
+
+      grantWriting: `
+        <div class="project-details">
+          <h4>Purpose</h4>
+          <p>The purpose of this grant writing project was to develop a structured proposal to request funding for a fictional organization called Rescue Voiceless Joint Forces, to support a fictional pilot program designed to reduce euthanization of dogs and cats in animal shelters. The proposal outlined the need for behavioral training, workforce development, and community partnerships to improve adoption success and expand therapy pet companionship opportunities to provide dogs and cats meaningful lives.</p>
+
+          <h4>Audience</h4>
+          <p>The primary audience included grant reviewers and funding organizations, specifically PETCO Love, responsible for evaluating funding requests that support animal welfare and community programs. The secondary audience were my peers for peer reviews and instructor for final grading of the grant proposal project.</p>
+
+          <h4>Tools and Techniques Used</h4>
+          <p>I used two books for this project: <em>The Only Book for Grant Writing You’ll Ever Need</em> by Ellen Karch and Arlen Sue Fox and <em>Winning Grants Step by Step</em> by Lynn Jenkins English, Tori O’Neal-McElrath, and Lynn Kanter. These books contained professional grant writing and research techniques to organize program goals, timelines, budgets, and evaluation plans into a clear and structured proposal. The Grant Writing course required the student to write each section of a grant proposal, resulting in a final sample that demonstrated the complete grant development process.</p>
+        </div>
+      `
+    };
+
+    function openPdfModal(title, pdfPath) {
       modalTitle.textContent = title;
-      modalFrame.src = pdfPath;
-      modalFrame.title = title;
+      modalBody.className = 'modal-body pdf';
+      modalBody.innerHTML = '<iframe src="' + pdfPath + '" title="' + title + '"></iframe>';
+      openModalBase();
+    }
+
+    function openTextModal(title, content) {
+      modalTitle.textContent = title;
+      modalBody.className = 'modal-body';
+      modalBody.innerHTML = content;
+      openModalBase();
+    }
+
+    function openModalBase() {
       modal.classList.add('active');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -389,22 +489,20 @@
     function closeModal() {
       modal.classList.remove('active');
       modal.setAttribute('aria-hidden', 'true');
+      modalBody.innerHTML = '';
       document.body.style.overflow = '';
     }
 
-    openResumeBtn.addEventListener('click', () => {
-      openModal('Resume Preview', 'resume.pdf');
-    });
+    document.querySelectorAll('[data-action]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.action;
 
-    projectTriggers.forEach((project) => {
-      project.addEventListener('click', () => {
-        openModal(project.dataset.title, project.dataset.pdf);
-      });
+        if (action === 'pdf') {
+          openPdfModal(button.dataset.title, button.dataset.pdf);
+        }
 
-      project.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openModal(project.dataset.title, project.dataset.pdf);
+        if (action === 'text') {
+          openTextModal(button.dataset.title, projectContent[button.dataset.project]);
         }
       });
     });
